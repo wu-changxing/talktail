@@ -4,14 +4,16 @@ import { useEffect, useState } from "react";
 import CommentForm from "./CommentForm";
 import CommentList from "./CommentList";
 
-const CommentsComponent = (postId:number) => {
+// Make sure to receive `slug` as a prop
+const CommentsComponent = ({ slug }) => {
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
     // Fetch initial comments from the server-side API
     async function fetchComments() {
       try {
-        const response = await fetch("/api/comments?postId=${postId}");
+        // Use template literals to insert the `slug`
+        const response = await fetch(`/api/comments?slug=${slug}`);
         if (response.ok) {
           const data = await response.json();
           setComments(data);
@@ -24,16 +26,19 @@ const CommentsComponent = (postId:number) => {
     }
 
     fetchComments();
-  }, []);
+  }, [slug]); // Add `slug` to the dependency array
 
   const handleNewComment = async (comment, additionalInfo) => {
+    // Include the `slug` in the new comment data
     const newCommentData = {
       text: comment,
-      ...additionalInfo, // Spread the additional info into the object
+      slug, // Add `slug` here
+      ...additionalInfo,
     };
 
     try {
-      const response = await fetch("/api/comments", {
+      // Update the fetch URL to include the `slug`
+      const response = await fetch(`/api/comments/${slug}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -43,6 +48,7 @@ const CommentsComponent = (postId:number) => {
 
       if (response.ok) {
         const savedComment = await response.json();
+        // Update the state with the new comment
         setComments((prevComments) => [...prevComments, savedComment]);
       } else {
         console.error("Failed to post new comment");
@@ -52,13 +58,12 @@ const CommentsComponent = (postId:number) => {
     }
   };
 
-
   return (
-    <div className="container my-8 mx-auto">
-      <h1 className="mb-4 text-2xl font-bold">Comments</h1>
-      <CommentForm onNewComment={handleNewComment} postId={postId} />
-      <CommentList comments={comments} />
-    </div>
+      <div className="container my-8 mx-auto">
+        <h1 className="mb-4 text-2xl font-bold">Comments</h1>
+        <CommentForm onNewComment={handleNewComment} slug={slug} />
+        <CommentList comments={comments} />
+      </div>
   );
 };
 
