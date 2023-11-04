@@ -1,17 +1,17 @@
-// src/app/comments/page.tsx
+// src/app/components/comments/Comments.tsx
 "use client";
 import { useEffect, useState } from "react";
 import CommentForm from "./CommentForm";
 import CommentList from "./CommentList";
 
-const CommentsPage = () => {
+const CommentsComponent = (postId:number) => {
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
     // Fetch initial comments from the server-side API
     async function fetchComments() {
       try {
-        const response = await fetch("/api/comments");
+        const response = await fetch("/api/comments?postId=${postId}");
         if (response.ok) {
           const data = await response.json();
           setComments(data);
@@ -56,10 +56,10 @@ const CommentsPage = () => {
   return (
     <div className="container my-8 mx-auto">
       <h1 className="mb-4 text-2xl font-bold">Comments</h1>
-      <CommentForm onNewComment={handleNewComment} />
+      <CommentForm onNewComment={handleNewComment} postId={postId} />
       <CommentList comments={comments} />
     </div>
   );
 };
 
-export default CommentsPage;
+export default CommentsComponent;
