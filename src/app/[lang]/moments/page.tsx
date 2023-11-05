@@ -1,4 +1,4 @@
-// src/app/moments/[slug]/dashboard.Comments.tsx
+// src/app/moments/[postSlug]/dashboard.Comments.tsx
 import { useLoaderData, json } from 'next';
 
 export async function loader({ params }) {

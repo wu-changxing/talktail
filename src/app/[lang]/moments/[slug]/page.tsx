@@ -1,4 +1,4 @@
-// app/[lang]/moments/[slug]/Comments.tsx
+// app/[lang]/moments/[postSlug]/Comments.tsx
 import Link from 'next/link'; // Make sure to import Link from 'next/link', not 'next/app'
 import Layout from '../../../layout';
 import Locale from '../../../../i18n-config'
@@ -43,7 +43,7 @@ export default async function Post({params: {lang, slug},}: { params: { lang: Lo
                 {/* Render your content here */}
                 <div>Content for {metaContent.meta.locale}</div>
             <PostContent post={post} />
-            <CommentsComponent ></CommentsComponent>
+            <CommentsComponent slug={slug}/>
         </div>
     );
 }

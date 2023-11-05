@@ -6,7 +6,7 @@ interface Comment {
   id: string;
   text: string;
   author: string;
-  timestamp: Date; // or string if you store it in a different format
+  createdAt: Date; // or string if you store it in a different format
 }
 
 interface CommentListProps {
@@ -56,7 +56,7 @@ export default function CommentList({ comments, onEdit, onDelete }: CommentListP
                   </div>
               ) : (
                   <>
-                    <p className="text-sm text-gray-600">{comment.text}</p>
+                    <p className="text-sm text-gray-600">{comment.content}</p>
                     <div className="text-xs text-gray-500">
                       Posted by {comment.author} on{" "}
                       {new Date(comment.timestamp).toLocaleString()}

@@ -5,12 +5,12 @@ import { IoSend } from "react-icons/io5";
 import { collectUserInfo } from "./UserInfoCollector"; // Import the user info collector
 
 interface CommentFormProps {
-  onNewComment: (comment: string, additionalInfo: object, slug: string) => void;
+  handleNewComment: (comment: string, additionalInfo: object, slug: string) => void;
   isSubmitting: boolean;
   slug: string; // Add slug to the props
 }
 
-export default function CommentForm({ onNewComment, isSubmitting, slug }: CommentFormProps) {
+export default function CommentForm({ handleNewComment, isSubmitting, slug }: CommentFormProps) {
   const [comment, setComment] = useState("");
   const [additionalInfo, setAdditionalInfo] = useState({});
 
@@ -22,7 +22,9 @@ export default function CommentForm({ onNewComment, isSubmitting, slug }: Commen
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     if (comment) {
-      onNewComment(comment, additionalInfo, slug); // Pass the slug here
+      console.log("the data is", comment, additionalInfo, slug)
+      handleNewComment(comment, additionalInfo, slug); // Pass the slug here
+
       setComment("");
     }
   };
