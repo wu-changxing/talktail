@@ -98,5 +98,3 @@ TalkTail is open-sourced under the MIT License. For more details, see the [LICEN
 - [Wagtail CMS](https://wagtail.io/)
 - [Next.js](https://nextjs.org/)
 - [Firebase](https://firebase.google.com/)
-- [And to all our contributors and supporters]
-```
