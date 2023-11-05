@@ -1,4 +1,4 @@
-// src/app/comments/UserInfoCollector.ts
+// src/app/components/UserInfoCollector.ts
 
 export async function collectUserInfo() {
     const browserInfo = getBrowserInfo();
@@ -7,7 +7,11 @@ export async function collectUserInfo() {
     // const geolocation = await getGeolocation();
     const performanceMetrics = getPerformanceMetrics();
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
+    const plugins = getBrowserPlugins();
+    const audioContextInfo = getAudioContextInfo();
+    const webGLRendererInfo = getWebGLRendererInfo();
+    const batteryInfo = await getBatteryInfo();
+    const hardwareConcurrency = getHardwareConcurrency();
     return {
         browserInfo,
         deviceInfo,
@@ -15,17 +19,83 @@ export async function collectUserInfo() {
         // geolocation,
         performanceMetrics,
         timeZone,
+        plugins,
+        batteryInfo,
+        audioContextInfo,
+        webGLRendererInfo,
+        hardwareConcurrency,
     };
+}
+function getAudioContextInfo() {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (AudioContext) {
+        const context = new AudioContext();
+        // Additional checks can be performed here
+        return {
+            sampleRate: context.sampleRate,
+            // Other properties can be added
+        };
+    }
+    return {};
+}
+function getHardwareConcurrency() {
+    return navigator.hardwareConcurrency;
+}
+function getWebGLRendererInfo() {
+    const canvas = document.createElement('canvas');
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    if (gl) {
+        const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+        return {
+            renderer: gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL),
+            vendor: gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL),
+            // Other WebGL information can be added
+        };
+    }
+    return {};
 }
 
 function getBrowserInfo() {
+    const userAgent = navigator.userAgent;
+    let os = "Unknown OS";
+
+    if (userAgent.indexOf("Win") !== -1) os = "Windows";
+    if (userAgent.indexOf("Mac") !== -1) os = "MacOS";
+    if (userAgent.indexOf("X11") !== -1) os = "UNIX";
+    if (userAgent.indexOf("Linux") !== -1) os = "Linux";
+    if (/Android/.test(userAgent)) os = "Android";
+    if (/iPhone|iPad|iPod/.test(userAgent)) os = "iOS";
+
     return {
-        userAgent: navigator.userAgent,
+        userAgent,
+        os,
         language: navigator.language,
         platform: navigator.platform,
         vendor: navigator.vendor,
         cookieEnabled: navigator.cookieEnabled,
     };
+}
+
+function getBatteryInfo() {
+    return navigator.getBattery().then((battery) => {
+        return {
+            charging: battery.charging,
+            level: battery.level,
+            // Other properties can be added
+        };
+    });
+}
+function getBrowserPlugins() {
+    const plugins = [];
+    if (navigator.plugins) {
+        for (let i = 0; i < navigator.plugins.length; i++) {
+            plugins.push({
+                name: navigator.plugins[i].name,
+                description: navigator.plugins[i].description
+            });
+        }
+    }
+    return plugins;
 }
 
 function getDeviceInfo() {

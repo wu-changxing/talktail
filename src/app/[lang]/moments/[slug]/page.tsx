@@ -1,18 +1,28 @@
-// app/[lang]/moments/[postSlug]/Comments.tsx
+// app/[lang]/moments/[postSlug]/page.tsx
 import Link from 'next/link'; // Make sure to import Link from 'next/link', not 'next/app'
 import Layout from '../../../layout';
 import Locale from '../../../../i18n-config'
 import {loadMeta,loadPost} from "@/app/[lang]/moments/[slug]/getData";
 import PostContent from "@/app/[lang]/moments/[slug]/PostContent";
 import CommentsComponent from "@/app/components/comments/Comments";
-
+import ViewinfoCollector from "@/app/components/ViewInfoCollector";
 // Define a loader function outside of your component to fetch data server-side
-
-export default async function Post({params: {lang, slug},}: { params: { lang: Locale, slug: string } })
-{
+type Props = {
+    params:{lang:Locale, slug:string};
+    searchParams:{ [key: string]: string | string[] | undefined };
+}
+export default async function BlogPost({
+                                           params,
+                                           searchParams,
+                                       }:Props) {
+    const slug = params.slug;
+    const lang = params.lang;
     const data = await loadMeta(slug);
     const items = data.items;
     const meta = data.meta;
+    const source= searchParams.source;
+    const email= searchParams.email;
+    const nickname= searchParams.nickname;
     // You might want to get the preferred language from the headers instead.
     // For simplicity, let's default to English ('en') for now.
     const defaultLanguage = 'en';
@@ -31,19 +41,13 @@ export default async function Post({params: {lang, slug},}: { params: { lang: Lo
     const post = await loadPost(metaContent.id)
     console.log(post)
 
+
     // Render the content
     return (
         <div>
-                {items.map((item) => (
-                    <Link key={item.id} href={`/moments/${item.meta.slug}`} locale={item.meta.locale}>
-                       {item.meta.locale.toUpperCase()}
-                    </Link>
-                ))}
-                <h1>{metaContent.title}</h1>
-                {/* Render your content here */}
-                <div>Content for {metaContent.meta.locale}</div>
             <PostContent post={post} />
             <CommentsComponent slug={slug}/>
+            <ViewinfoCollector slug={slug} source={source} email={email} nickname={nickname}/>
         </div>
     );
 }

@@ -111,6 +111,7 @@ const CommentsComponent = ({slug}) => {
                 const savedComment = await response.json();
                 // Update the state with the new comment
                 setComments((prevComments) => [...prevComments, savedComment]);
+                console.log("saved comment", savedComment)
             } else {
                 console.error("Failed to post new comment");
             }

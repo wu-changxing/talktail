@@ -65,6 +65,8 @@ Discover the myriad of features TalkTail bestows upon your blog:
 Track our voyage as we navigate through the development seas:
 
 - [x] Firebase integration for a blazing backend
+- [x] A Next.js frontend that's fast and responsive
+- [ ] i18n support for a global audience
 - [ ] Crafting a user interface that enchants
 - [x] Synchronization with the majesty of Wagtail CMS
 - [ ] An arsenal of interactive tools: comments, likes, replies
