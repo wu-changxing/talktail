@@ -63,7 +63,8 @@ Discover the myriad of features TalkTail bestows upon your blog:
 ## Roadmap
 
 Track our voyage as we navigate through the development seas:
-
+- [ ] xss attack prevention
+- [ ] voice comment
 - [x] Firebase integration for a blazing backend
 - [x] A Next.js frontend that's fast and responsive
 - [ ] i18n support for a global audience

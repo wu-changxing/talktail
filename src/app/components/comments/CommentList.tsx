@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 interface Comment {
   id: string;
-  text: string;
+  content: string;
   author: string;
   createdAt: Date; // or string if you store it in a different format
 }
@@ -18,11 +18,15 @@ interface CommentListProps {
 export default function CommentList({ comments, onEdit, onDelete }: CommentListProps) {
   const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
   const [editedText, setEditedText] = useState<string>('');
-
+  console.log("comments", comments)
+  const formatCreatedAt = (timestamp) => {
+    const date = new Date(timestamp.seconds * 1000); // Convert to JavaScript Date
+    return date.toLocaleString(); // Format the date as a string
+  };
   // Toggle editing for a comment
   const handleEditClick = (comment: Comment) => {
     setEditingCommentId(comment.id);
-    setEditedText(comment.text);
+    setEditedText(comment.content);
   };
 
   // Handle the save after editing
@@ -58,9 +62,8 @@ export default function CommentList({ comments, onEdit, onDelete }: CommentListP
                   <>
                     <p className="text-sm text-gray-600">{comment.content}</p>
                     <div className="text-xs text-gray-500">
-                      Posted by {comment.author} on{" "}
-                      {new Date(comment.timestamp).toLocaleString()}
-                    </div>
+                      Posted by {comment.author} on {formatCreatedAt(comment.createdAt)}
+                  </div>
                     <button onClick={() => handleEditClick(comment)}>Edit</button>
                     <button onClick={() => onDelete(comment.id)}>Delete</button>
                   </>
