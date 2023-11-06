@@ -1,7 +1,7 @@
 // app/[lang]/moments/[postSlug]/page.tsx
 import Link from 'next/link'; // Make sure to import Link from 'next/link', not 'next/app'
 import Layout from '../../../layout';
-import Locale from '../../../../i18n-config'
+import {Locale} from '../../../../i18n-config'
 import {loadMeta,loadPost} from "@/app/[lang]/moments/[slug]/getData";
 import PostContent from "@/app/[lang]/moments/[slug]/PostContent";
 import CommentsComponent from "@/app/components/comments/Comments";

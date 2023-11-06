@@ -1,25 +1,45 @@
 "use client";
 import { useEffect } from 'react';
 import { collectUserInfo } from './comments/UserInfoCollector';
-
-const ViewinfoCollector = ({slug, source, email, nickname}) => {
+interface ViewinfoCollectorProps {
+    slug: string;
+    source: string;
+    email?: string;
+    nickname?: string;
+}
+const ViewinfoCollector = ({slug, source, email, nickname}:ViewinfoCollectorProps) => {
     useEffect(() => {
+        async function registerUser(email, nickname) {
+            try {
+                const response = await fetch('/api/user', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, nickname,password:nickname }),
+                });
+                const data = await response.json();
+                if (data.token) {
+                    localStorage.setItem('token', data.token);
+                }
+            } catch (error) {
+                console.error('Error registering user:', error);
+            }
+        }
+
         const storedEmail = localStorage.getItem('email');
         const storedNickname = localStorage.getItem('nickname');
+        const storedToken = localStorage.getItem('token');
 
-        console.log("slug, source, email, nickname", slug, source, email, nickname);
-        console.log("storedEmail, storedNickname", storedEmail, storedNickname)
-        // Use stored values if props are not provided
-        const userEmail = email || storedEmail;
-        const userNickname = nickname || storedNickname;
+        if (!storedEmail || !storedNickname || !storedToken) {
+            // Register the user if email, nickname, or token are not in local storage
+            registerUser(email || 'default@example.com', nickname || 'Anonymous');
+            localStorage.setItem('email', email);
+            localStorage.setItem('nickname', nickname);
+            localStorage.setItem('needChangePassword', true);
+        }
 
         // Update localStorage if new values are provided
-        if (!storedEmail) {
-            localStorage.setItem('email', email);
-        }
-        if (!storedNickname) {
-            localStorage.setItem('nickname', nickname);
-        }
 
         // Record the start time
         const startTime = Date.now();
@@ -27,7 +47,7 @@ const ViewinfoCollector = ({slug, source, email, nickname}) => {
         // Function to send data to server
         async function sendViewInfo(duration) {
             const userInfo = await collectUserInfo();
-            console.log("email, nickname, slug, userInfo", email, nickname, slug, userInfo);
+            console.log("slug, userInfo", slug, userInfo);
 
             fetch(`/api/view/${slug}`, {
                 method: 'POST',
@@ -36,8 +56,8 @@ const ViewinfoCollector = ({slug, source, email, nickname}) => {
                 },
                 body: JSON.stringify({
                     source,
-                    email,
-                    nickname,
+                    email: localStorage.getItem('email'),
+                    nickname: localStorage.getItem('nickname'),
                     duration,
                     userInfo,
                 }),
@@ -52,7 +72,7 @@ const ViewinfoCollector = ({slug, source, email, nickname}) => {
             const duration = Date.now() - startTime;
             sendViewInfo(duration);
         };
-    }, [email, nickname, slug, source]);
+    }, []);
 
     return null; // This component does not render anything
 };

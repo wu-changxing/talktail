@@ -1,13 +1,6 @@
 // src/app/moments/[postSlug]/dashboard.Comments.tsx
 import { useLoaderData, json } from 'next';
 
-export async function loader({ params }) {
-    // Replace with the actual API call to fetch read data for the post
-    const res = await fetch(`/api/posts/${params.slug}/reads`);
-    const readData = await res.json();
-    return json(readData);
-}
-
 export default function DashboardPage() {
     const readData = useLoaderData();
 
