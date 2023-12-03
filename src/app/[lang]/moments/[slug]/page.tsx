@@ -36,6 +36,8 @@ export default async function BlogPost({
 
     // If no content is found at all, show a message
     if (!metaContent) {
+        // console.log(items[4].meta.locale)
+        // console.log(metaContent,lang)
         return <Layout>No post found or there is an issue fetching the post content.</Layout>;
     }
     const post = await loadPost(metaContent.id)
@@ -46,7 +48,7 @@ export default async function BlogPost({
     return (
         <div>
             <PostContent post={post} />
-            <CommentsComponent slug={slug}/>
+            <CommentsComponent slug={slug} email={email} nickname={nickname}/>
             <ViewinfoCollector slug={slug} source={source} email={email} nickname={nickname}/>
         </div>
     );

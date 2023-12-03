@@ -11,10 +11,17 @@ const config: Config = {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+            'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      },
+      fontFamily: {
+        'long-cang': ['var(--font-long-cang)'], // Use CSS variable for Long Cang font
+        'zhi-mang-xing': ['var(--font-zhi-mang-xing)'], // Use CSS variable for Zhi Mang Xing font
+        'ma-shan-zheng': ['var(--font-ma-shan-zheng)'], // Use CSS variable for Ma Shan Zheng font
+
       },
     },
   },
   plugins: [require('@tailwindcss/typography')],
-}
-export default config
+};
+
+export default config;

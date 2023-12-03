@@ -6,13 +6,17 @@ interface CommentFormProps {
   handleNewComment: (comment: string, additionalInfo: object, slug: string, email: string, nickname: string) => void;
   isSubmitting: boolean;
   slug: string; // Add slug to the props
+    email: string;
+    nickname: string;
 }
 
-export default function CommentForm({ handleNewComment, isSubmitting, slug }: CommentFormProps) {
+export default function CommentForm({ handleNewComment, isSubmitting, slug, email, nickname }: CommentFormProps) {
   const [comment, setComment] = useState("");
   const [additionalInfo, setAdditionalInfo] = useState({});
-  const [nickname, setNickname] = useState(localStorage.getItem("nickname") || "");
-  const email = localStorage.getItem("email") || "Unavailable"; // Fallback if email is not found
+  // const [nickname, setNickname] = useState(localStorage.getItem("nickname") || "");
+  // const email = localStorage.getItem("email") || "Unavailable"; // Fallback if email is not found
+    const [nick, setNickname] = useState(nickname || "");
+    console.log("nickname", nickname)
 
   useEffect(() => {
     // Collect user information asynchronously
@@ -33,7 +37,7 @@ export default function CommentForm({ handleNewComment, isSubmitting, slug }: Co
       <form onSubmit={handleSubmit} className="mb-6">
         <input
             type="text"
-            value={nickname}
+            value={nick}
             onChange={(e) => setNickname(e.target.value)}
             placeholder="Nickname"
             className="mb-2 p-2 w-full border border-gray-300"

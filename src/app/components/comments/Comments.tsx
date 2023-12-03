@@ -5,7 +5,7 @@ import CommentForm from "./CommentForm";
 import CommentList from "./CommentList";
 
 // Make sure to receive `slug` as a prop
-const CommentsComponent = ({slug}) => {
+const CommentsComponent = ({slug, email, nickname}) => {
     const [comments, setComments] = useState([]);
 
     useEffect(() => {
@@ -123,7 +123,7 @@ const CommentsComponent = ({slug}) => {
     return (
         <div className="container my-8 mx-auto">
             <h1 className="mb-4 text-2xl font-bold">Comments</h1>
-            <CommentForm handleNewComment={handleNewComment} slug={slug}/>
+            <CommentForm handleNewComment={handleNewComment} slug={slug} email={email} nickname = {nickname}/>
             <CommentList comments={comments} onDelete={handleDeleteComment} onEdit={handleEditComment}/>
         </div>
     );

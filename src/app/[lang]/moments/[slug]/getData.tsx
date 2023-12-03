@@ -4,6 +4,7 @@ export async function loadMeta(slug:string) {
         throw new Error(`Failed to fetch post: ${response.statusText}`);
     }
     const jsonData = await response.json();
+    console.log("jsonData", jsonData)
     return jsonData;
 }
 export async function loadPost(id:number) {
