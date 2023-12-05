@@ -1,4 +1,3 @@
-
 # TalkTail - Elevate Your Blog with Engaging Comments
 
 Welcome to TalkTail, where commenting becomes a conversation. Built atop the mighty shoulders of Wagtail's Django REST framework and Next.js 14, TalkTail reimagines the way readers interact with blog content. It's more than a commenting system—it's a gateway to immersive discussions, crafted to seamlessly integrate into your existing blog platform.
@@ -20,12 +19,14 @@ Ensure you have the following to take full advantage of TalkTail:
 Follow these steps to plant the seeds for your new commenting ecosystem:
 
 1. **Clone and Navigate:**
+
    ```bash
    git clone https://github.com/changxing-wu/talktail.git
    cd talktail
    ```
 
 2. **Dependency Installation:**
+
    ```bash
    npm install
    # or with Yarn
@@ -63,6 +64,9 @@ Discover the myriad of features TalkTail bestows upon your blog:
 ## Roadmap
 
 Track our voyage as we navigate through the development seas:
+
+- [ ] display the math formula
+- [ ] display the full rich text
 - [ ] xss attack prevention
 - [ ] firebase login provider
 - [ ] voice comment
